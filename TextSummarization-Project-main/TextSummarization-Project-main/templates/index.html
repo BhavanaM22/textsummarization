@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text-Summarizer</title>
+    <style>
+                /* Styles defined for the desktop or the bigger screen devices*/
+        @import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap'); 
+
+        /* Header Navbar Styles */
+        .navbar { 
+            display: flex; 
+            text-align: center;
+            align-items: center; 
+            justify-content: center; /* Align content to the left */
+            position: fixed; 
+            top: 0; 
+            width: 100%; 
+            background-image: linear-gradient(90deg, #e296ca, #e296ca, #e296ca); 
+            background-color: transparent; 
+        }
+
+        /* About section styles */
+        .about {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-image: linear-gradient(45deg, #b36d49, #e679ec);
+            /* height: 40vh; Remove or adjust the height */
+        }
+
+        .about .about-text {
+            max-width: 320px; /* Set max-width instead of width */
+            color: #fff;
+            padding: 2rem; /* Adjust padding as needed */
+            text-align: center; /* Center-align text */
+            align-items: center;
+        }
+
+        .about .about-text input[type="text"],
+        .about .about-text input[type="submit"] {
+            width: calc(100% - 2rem); /* Adjust width considering padding */
+            padding: 1rem; /* Adjust padding as needed */
+            margin-bottom: 0.5rem; /* Add some spacing between inputs */
+            align-items: center;
+            justify-content: center;
+            box-sizing: border-box; /* Include padding and border in the total width */
+        }
+
+        .about .about-text input[type="submit"] {
+            background-color: #3dacca;
+            color: #fff;
+            border: none;
+            padding: 0.8rem 2rem; /* Adjust padding as needed */
+            cursor: pointer;
+        }
+
+        .about .about-text input[type="submit"]:hover {
+            background-color: #1e6a87;
+        }
+    </style>
+</head>
+<body style="align-items: center;">
+    <!-- Navbar header section -->
+	<header class="header">
+		<nav class="navbar">
+			<div class="logo">
+				<h2 class="logo-heading"><u><b>NIDHA AHMED</b></u></h2>
+			</div>
+			<div class="hamburger" id="hamburger" >
+				<i class="fas fa-bars hamburger-icon"></i>
+				<i class="fas fa-times cross-icon"></i>
+			</div>
+		</nav>
+	</header>
+    <br><br><br><br><br>
+    <!-- About Section -->
+	<section id="about" class="about">
+		<div class="about-text">
+			<form method="POST" id="summarize-form">
+                <input type="text" name="url" id="url">
+                <br><br>
+                <input type="submit" name="Summarize" id="ok">
+            </form>
+		</div>
+	</section>
+
+    <!-- Summarized Text Section -->
+    <section id="summarized-text" style="display: none;">
+        <div id="summarized-content"></div>
+    </section>
+
+    <script>
+        document.getElementById('summarize-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            var url = document.getElementById('url').value;
+            fetch('/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: new URLSearchParams({
+                    'url': url
+                }),
+            })
+            .then(response => response.text()) // Convert response to text
+            .then(data => {
+                document.getElementById('summarized-content').innerHTML = data; // Display the summarized text
+                document.getElementById('summarized-text').style.display = 'block'; // Show the summarized text section
+            })
+            .catch(error => console.error('Error:', error));
+        });
+    </script>
+    
+</body>
+</html>
